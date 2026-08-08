@@ -49,6 +49,7 @@ Each stage of the EDA → training → evaluation → deployment pipeline is its
 |---|---|---|
 | `block_aws_submit.py` | PreToolUse (Bash) | Denies any Bash call that would submit/mutate a billable SageMaker job or endpoint directly — that's the human's job, not Claude's |
 | `session_cost.py` | Stop | Prints an estimated USD cost for the Claude Code session itself, from token usage |
+| `announce.py` | Stop, Notification | Speaks a short status ("finish job" / "need approve") aloud via the OS's TTS engine and always emits a visible systemMessage, so the alert shows even without audio |
 
 ## Execution model
 

@@ -6,7 +6,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/block_aws_submit.py\"",
+            "command": "if python3 --version >/dev/null 2>&1; then PY=python3; else PY=python; fi; \"$PY\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/block_aws_submit.py\"",
+            "shell": "bash",
             "timeout": 5
           }
         ]
@@ -17,7 +18,26 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/session_cost.py\" 2>/dev/null || true",
+            "command": "if python3 --version >/dev/null 2>&1; then PY=python3; else PY=python; fi; \"$PY\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/session_cost.py\" 2>/dev/null || true",
+            "shell": "bash",
+            "timeout": 15
+          },
+          {
+            "type": "command",
+            "command": "if python3 --version >/dev/null 2>&1; then PY=python3; else PY=python; fi; \"$PY\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/announce.py\" \"finish job\" 2>/dev/null || true",
+            "shell": "bash",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if python3 --version >/dev/null 2>&1; then PY=python3; else PY=python; fi; \"$PY\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/announce.py\" \"need approve\" 2>/dev/null || true",
+            "shell": "bash",
             "timeout": 15
           }
         ]

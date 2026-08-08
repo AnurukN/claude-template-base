@@ -67,3 +67,4 @@ Phase 1 targets Data Scientist and ML Engineer personas only; Data Analyst (SQL/
 1. Copy `.claude/`, `CONTEXT.md`, and `docs/adr/` into the new repo.
 2. Run `/setup-matt-pocock-skills` once to configure the general engineering bundle for that repo.
 3. Start with `/eda` on the new dataset.
+

@@ -19,3 +19,26 @@ _Avoid_: Subagent task, bot, assistant (when referring to the mechanism itself)
 **Persona**:
 The target role a skill/agent/hook is designed for in this template. Scope for this template is **Data Scientist** and **ML Engineer**; Data Analyst (SQL/BI/dashboard-focused) is explicitly out of scope for now.
 _Avoid_: Role, user type
+
+### Data labeling
+
+**Labeling run**:
+One invocation of the labeling skill over a dataset, configured upfront with a data type (image or video), a task type (classification, multi-label tagging, captioning, or video-level tagging), and a mode (Hybrid or Human-only).
+_Avoid_: Labeling job (reserve "job" for actual SageMaker jobs elsewhere in this template)
+
+**Pre-label**:
+A label suggestion for one item, produced by a generated batch script that calls a vision-capable LLM. Never final — always subject to human review in Hybrid mode. This is a generated script/job, not this template's **Agent** — no Claude Code sub-process is dispatched to produce it.
+_Avoid_: Auto-label, AI label, labeling agent
+
+**Hybrid mode**:
+A labeling run mode where every item receives a Pre-label first, which a human then reviews and corrects via the notebook viewer.
+
+**Human-only mode**:
+A labeling run mode where every item is labeled directly by a human via the notebook viewer, with no Pre-label step.
+
+**Confidence**:
+A per-item score attached by the Pre-label step in Hybrid mode, used to prioritize which items a human reviews first.
+
+**Manifest**:
+The local JSONL file a labeling run produces — one record per item, holding its path, label, mode, and (in Hybrid mode) confidence and reviewer.
+_Avoid_: Output file, labels file

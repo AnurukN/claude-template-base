@@ -22,6 +22,7 @@ Each stage of the EDA → training → evaluation → deployment pipeline is its
 
 | Skill | Does |
 |---|---|
+| `/label-data` | Labels an image/video dataset (LLM pre-label + human review, or human-only), writes a local manifest — run before `/eda` when the data has no labels yet |
 | `/eda` | Exploratory analysis on a new dataset, local to the notebook |
 | `/feature-engineering` | Turns EDA findings into a SageMaker Processing Job for features |
 | `/train-model` | Generates a training/tuning job, prints cost, waits for confirmation |
@@ -48,12 +49,13 @@ Each stage of the EDA → training → evaluation → deployment pipeline is its
 | Hook | Event | Does |
 |---|---|---|
 | `block_aws_submit.py` | PreToolUse (Bash) | Denies any Bash call that would submit/mutate a billable SageMaker job or endpoint directly — that's the human's job, not Claude's |
+| `block_bedrock_submit.py` | PreToolUse (Bash) | Denies any Bash call that would directly invoke a billable Bedrock/Anthropic vision-model call (e.g. `/label-data`'s Pre-label script) — same reasoning, extended per `docs/adr/0007-extend-scaffold-and-confirm-to-bedrock-calls.md` |
 | `session_cost.py` | Stop | Prints an estimated USD cost for the Claude Code session itself, from token usage |
 | `announce.py` | Stop, Notification | Speaks a short status ("finish job" / "need approve") aloud via the OS's TTS engine and always emits a visible systemMessage, so the alert shows even without audio |
 
 ## Execution model
 
-Skills that touch AWS never submit anything themselves. They generate the code/config, print the exact command plus an estimated cost, and wait for explicit confirmation before the human runs it. `block_aws_submit.py` enforces the "Claude doesn't run it" half of that deterministically — see `docs/adr/0001-scaffold-and-confirm-execution-model.md`.
+Skills that touch AWS, or that call a billable LLM API directly (Bedrock/Anthropic), never submit anything themselves. They generate the code/config, print the exact command plus an estimated cost, and wait for explicit confirmation before the human runs it. `block_aws_submit.py` and `block_bedrock_submit.py` enforce the "Claude doesn't run it" half of that deterministically — see `docs/adr/0001-scaffold-and-confirm-execution-model.md` and `docs/adr/0007-extend-scaffold-and-confirm-to-bedrock-calls.md`.
 
 ## General engineering skills bundle
 

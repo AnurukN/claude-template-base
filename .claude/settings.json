@@ -9,6 +9,12 @@
             "command": "if python3 --version >/dev/null 2>&1; then PY=python3; else PY=python; fi; \"$PY\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/block_aws_submit.py\"",
             "shell": "bash",
             "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "if python3 --version >/dev/null 2>&1; then PY=python3; else PY=python; fi; \"$PY\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/block_bedrock_submit.py\"",
+            "shell": "bash",
+            "timeout": 5
           }
         ]
       }

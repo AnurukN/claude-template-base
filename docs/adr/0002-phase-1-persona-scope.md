@@ -1,0 +1,3 @@
+# Phase 1 persona scope: Data Scientist + ML Engineer only
+
+This template could target Data Scientist, ML Engineer, and Data Analyst personas together, or scope narrowly. We chose to scope Phase 1 to Data Scientist and ML Engineer only, explicitly excluding Data Analyst (SQL/BI/dashboard-focused work) — because the driving pain point is the EDA → training → evaluation pipeline, which is DS/MLE work, and building a third, differently-shaped persona (different tools, different skills) now would dilute effort without a concrete need yet. Data Analyst support can be added as a later phase without disrupting this one.

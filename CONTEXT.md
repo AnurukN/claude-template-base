@@ -42,3 +42,22 @@ A per-item score attached by the Pre-label step in Hybrid mode, used to prioriti
 **Manifest**:
 The local JSONL file a labeling run produces — one record per item, holding an item reference (file path for image/video/audio, row index/ID for text-as-rows/tabular), label, mode, and (in Hybrid mode) confidence and reviewer.
 _Avoid_: Output file, labels file
+
+### Platform target
+
+**Platform target**:
+The environment a skill invocation executes against — **SageMaker** or **Local**. Chosen by the user each time a skill is invoked, never a hidden default (see [ADR 0010](/docs/adr/0010-local-anaconda-mlflow-platform-target.md)).
+
+**Local run**:
+The Local platform target's equivalent of a SageMaker Training Job — an MLflow Run, started via `mlflow.start_run()`, that logs params/metrics/artifacts to the Tracking Store.
+_Avoid_: Training Job (reserve for the SageMaker construct), experiment (a Local Run is one execution, not the umbrella experiment it belongs to)
+
+**Tracking Store**:
+The local, file-based MLflow backend (`file:./mlruns`) where Local Runs are recorded. Writing to it needs no standing MLflow server.
+
+**Local deploy mode**:
+One of three ways `/deploy-model`'s Local platform target can serve a model, chosen per invocation: MLflow Serve, Local API (a generated FastAPI/Flask wrapper), or Export Only (artifact plus inference script, no live server). None of these is a SageMaker Endpoint equivalent.
+
+**Local pipeline**:
+The Local platform target's equivalent of a SageMaker Pipeline — a generated script that runs every stage in sequence on the same machine.
+_Avoid_: Pipeline (reserve unqualified "Pipeline" for the SageMaker construct)

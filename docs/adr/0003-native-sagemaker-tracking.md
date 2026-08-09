@@ -1,3 +1,5 @@
+Status: superseded by ADR-0010
+
 # Use native SageMaker Model Registry + Experiments for tracking
 
 `/train-model` and `/evaluate-model` need somewhere to write model versions and experiment results. The alternative was MLflow, which is a common industry default but would add a service to stand up and maintain. We chose SageMaker Model Registry (versioning) and SageMaker Experiments (run tracking) instead, since the team is already fully on AWS SageMaker and this avoids introducing extra infrastructure with no current requirement for it. This can be revisited if the team later needs cross-cloud portability that Model Registry doesn't offer.

@@ -23,11 +23,11 @@ _Avoid_: Role, user type
 ### Data labeling
 
 **Labeling run**:
-One invocation of the labeling skill over a dataset, configured upfront with a data type (image or video), a task type (classification, multi-label tagging, captioning, or video-level tagging), and a mode (Hybrid or Human-only).
+One invocation of the labeling skill over a dataset, configured upfront with a data type (image, video, text, audio, or tabular), a task type (classification, multi-label tagging, captioning/free-text annotation, or video/audio-level tagging), and a mode (Hybrid or Human-only).
 _Avoid_: Labeling job (reserve "job" for actual SageMaker jobs elsewhere in this template)
 
 **Pre-label**:
-A label suggestion for one item, produced by a generated batch script that calls a vision-capable LLM. Never final — always subject to human review in Hybrid mode. This is a generated script/job, not this template's **Agent** — no Claude Code sub-process is dispatched to produce it.
+A label suggestion for one item, produced by a generated batch script that calls a Claude model capable of the item's modality — vision-capable for image/video, text-capable for text/tabular, and for audio a text-capable call over an existing transcript (see [ADR 0009](/docs/adr/0009-extend-label-data-to-text-audio-tabular.md)). Never final — always subject to human review in Hybrid mode. This is a generated script/job, not this template's **Agent** — no Claude Code sub-process is dispatched to produce it.
 _Avoid_: Auto-label, AI label, labeling agent
 
 **Hybrid mode**:
@@ -40,5 +40,5 @@ A labeling run mode where every item is labeled directly by a human via the note
 A per-item score attached by the Pre-label step in Hybrid mode, used to prioritize which items a human reviews first.
 
 **Manifest**:
-The local JSONL file a labeling run produces — one record per item, holding its path, label, mode, and (in Hybrid mode) confidence and reviewer.
+The local JSONL file a labeling run produces — one record per item, holding an item reference (file path for image/video/audio, row index/ID for text-as-rows/tabular), label, mode, and (in Hybrid mode) confidence and reviewer.
 _Avoid_: Output file, labels file

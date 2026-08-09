@@ -22,7 +22,7 @@ Each stage of the EDA → training → evaluation → deployment pipeline is its
 
 | Skill | Does |
 |---|---|
-| `/label-data` | Labels an image/video dataset (LLM pre-label + human review, or human-only), writes a local manifest — run before `/eda` when the data has no labels yet |
+| `/label-data` | Labels an image, video, text, audio, or tabular dataset (LLM pre-label + human review, or human-only), writes a local manifest — run before `/eda` when the data has no labels yet |
 | `/eda` | Exploratory analysis on a new dataset, local to the notebook |
 | `/feature-engineering` | Turns EDA findings into a SageMaker Processing Job for features |
 | `/train-model` | Generates a training/tuning job, prints cost, waits for confirmation |
